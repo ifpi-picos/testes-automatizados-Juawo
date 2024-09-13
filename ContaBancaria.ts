@@ -1,23 +1,41 @@
 export default class ContaBancaria {
   private numeroConta = Number(prompt("Digite o número da conta : "))
-  private agencia = Number(prompt("Digite o número da agência : "))
+  private agencia : number;
   private saldo = 0;
-  private extrato : String[] = []
+  private extrato : string[] = []
 
   public depoistar(valor : number){
-    return
+    if(valor > 0){
+      this.saldo += this.saldo
+      const dataDeposito = new Date()
+      this.registarOperação(`Depósito - ${dataDeposito.toLocaleDateString("pt-BR")}`)
+    } else {
+      console.log("Valor invalido, deposite um valor maior que 0.")
+    }
   }
   public sacar(valor : number){
-    return
+    if(valor <= this.saldo){
+      this.saldo -= valor
+      const dataSaque = new Date()
+      this.registarOperação(`Saque - ${dataSaque.toLocaleDateString("pt-BR")}`)
+    } else {
+      console.log("Saldo insuficiente para o saque.")
+    }
   }
   public transferir(valor : number, contaDestino : ContaBancaria){
-    return
+    if(valor <= this.saldo){
+      this.saldo -= valor
+      contaDestino.depoistar(valor)
+      const dataTransferencia = new Date()
+      this.registarOperação(`Transferência - ${dataTransferencia.toLocaleDateString("pt-BR")}`)
+    }
   }
   public consultarSaldo(){
-    return
+    return this.saldo
   }
+  
   private registarOperação(descricao : string){
-    return
+    this.extrato.push(descricao)
   }
 
 }
