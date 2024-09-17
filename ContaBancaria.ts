@@ -1,5 +1,5 @@
 export default class ContaBancaria {
-  private numeroConta : Number;
+  private numeroConta : Number | undefined;
   private agencia = 1;
   private saldo = 0;
   private extrato : string[] = []
@@ -29,7 +29,7 @@ export default class ContaBancaria {
   public transferir(valor : number, contaDestino : ContaBancaria){
     if(valor <= this.saldo){
       this.saldo -= valor
-      contaDestino.depoistar(valor,true)
+      contaDestino.depositar(valor,true)
       const dataTransferencia = new Date()
       this.registarOperação(`Transferência - ${dataTransferencia.toLocaleDateString("pt-BR")}`)
       contaDestino.registarOperação(`Recebimento de Transferência - ${dataTransferencia.toLocaleDateString("pt-BR")}`)

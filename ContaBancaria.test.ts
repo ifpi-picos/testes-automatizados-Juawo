@@ -22,25 +22,28 @@ describe("Testando classe ContaBancaria", () => {
         conta1.depositar(-100);
         expect(conta1.consultarSaldo()).toBe(0)
     })
-
+    
     test("Testando sacar valor positivo", () => {
+        conta1.depositar(100);
         conta1.sacar(10);
         expect(conta1.consultarSaldo()).toBe(90)
     })
 
     test("Testando sacar valor negativo", () => {
         conta1.sacar(-10);
-        expect(conta1.consultarSaldo()).toBe(90)
+        expect(conta1.consultarSaldo()).toBe(0)
     })
     
     test("Testando sacar valor maior que o saldo da conta", () => {
         conta1.sacar(5000);
-        expect(conta1.consultarSaldo()).toBe(90)
+        expect(conta1.consultarSaldo()).toBe(0)
     })
     
     test("Testando transferência ", () => {
-        conta1.transferir(20,conta2);
-        expect(conta1.consultarSaldo()).toBe(70)
+        conta1.depositar(100);
+        conta2.depositar(100);
+        conta1.transferir(20,conta2)
+        expect(conta1.consultarSaldo()).toBe(80)
         expect(conta2.consultarSaldo()).toBe(120)
     })
 
