@@ -1,20 +1,24 @@
 export default class ContaBancaria {
-  private numeroConta = Number(prompt("Digite o número da conta : "))
-  private agencia : number;
+  private numeroConta : Number;
+  private agencia = 1;
   private saldo = 0;
   private extrato : string[] = []
 
-  public depoistar(valor : number){
+  public getNumeroConta(){
+    return this.numeroConta
+  }
+  
+  public depositar(valor : number,transferencia = false){
     if(valor > 0){
-      this.saldo += this.saldo
+      this.saldo += valor
       const dataDeposito = new Date()
-      this.registarOperação(`Depósito - ${dataDeposito.toLocaleDateString("pt-BR")}`)
+      !transferencia && this.registarOperação(`Depósito - ${dataDeposito.toLocaleDateString("pt-BR")}`)
     } else {
       console.log("Valor invalido, deposite um valor maior que 0.")
     }
   }
   public sacar(valor : number){
-    if(valor <= this.saldo){
+    if(valor <= this.saldo && valor > 0){
       this.saldo -= valor
       const dataSaque = new Date()
       this.registarOperação(`Saque - ${dataSaque.toLocaleDateString("pt-BR")}`)
@@ -25,11 +29,13 @@ export default class ContaBancaria {
   public transferir(valor : number, contaDestino : ContaBancaria){
     if(valor <= this.saldo){
       this.saldo -= valor
-      contaDestino.depoistar(valor)
+      contaDestino.depoistar(valor,true)
       const dataTransferencia = new Date()
       this.registarOperação(`Transferência - ${dataTransferencia.toLocaleDateString("pt-BR")}`)
+      contaDestino.registarOperação(`Recebimento de Transferência - ${dataTransferencia.toLocaleDateString("pt-BR")}`)
     }
   }
+
   public consultarSaldo(){
     return this.saldo
   }
@@ -38,4 +44,7 @@ export default class ContaBancaria {
     this.extrato.push(descricao)
   }
 
+  public exibirExtrato(){
+    return this.extrato
+  }
 }
