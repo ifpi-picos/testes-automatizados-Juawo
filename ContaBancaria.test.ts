@@ -47,5 +47,14 @@ describe("Testando classe ContaBancaria", () => {
         expect(conta2.consultarSaldo()).toBe(120)
     })
 
+    test("Testando extrato ", () => {
+        conta1.depositar(100)
+        conta2.depositar(100)
+        conta1.sacar(10)
+        conta1.transferir(10,conta2)
+        let data = new Date()
+        let retorno = [`Depósito - ${data.toLocaleDateString("pt-BR")}`,`Saque - ${data.toLocaleDateString("pt-BR")}`,  `Transferência - ${data.toLocaleDateString("pt-BR")}`]
+        expect(conta1.exibirExtrato()).toEqual(retorno)
+    })
 
 })
